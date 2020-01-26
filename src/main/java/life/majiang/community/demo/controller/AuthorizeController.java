@@ -35,7 +35,6 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
-                           HttpServletRequest request,
                            HttpServletResponse response) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
@@ -56,7 +55,6 @@ public class AuthorizeController {
             userMapper.insert(user);
             response.addCookie(new Cookie("token", token));
             // login success, write cookie and session
-            request.getSession().setAttribute("user", githubUser);
             return "redirect:/";
         }
         else {
